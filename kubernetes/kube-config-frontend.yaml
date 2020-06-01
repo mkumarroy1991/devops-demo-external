@@ -2,29 +2,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: events-web
+  name: deloitte-drifters-frontend
+  namespace: qa
   labels:
-    app: events-web
+    app: deloitte-drifters-frontend
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: events-web
+      app: deloitte-drifters-frontend
   template:
     metadata:
       labels:
-        app: events-web
+        app: deloitte-drifters-frontend
     spec:
       containers:
-      - name: events-web
-        image: bpeddapadamala/externalapp:v1.0.0
+      - name: deloitte-drifters-frontend
+        image: bhavgandhi/myexternal:v2
         env:
         - name: PORT
           value: "80"
         - name: SERVER
-          value: "http://events-data-service"
+          value: "http://deloitte-drifters-backend-service"
         ports:
-        - containerPort: 8080
+        - containerPort: 8082
           name: "events-port"
         resources:
           requests:
@@ -44,26 +45,28 @@ spec:
 apiVersion: v1
 kind: Service
 metadata: 
-  name: events-web-service
+  name: deloitte-drifters-frontend-service
+  namespace: qa
 spec: 
   ports: 
      -  port: 80
         protocol: TCP
         targetPort: 8080
   selector: 
-    app: events-web
+    app: deloitte-drifters-frontend
   type: LoadBalancer
 
 ---
 apiVersion: autoscaling/v2beta1
 kind: HorizontalPodAutoscaler
 metadata:
-  name: events-web-autoscaler
+  name: deloitte-drifters-frontend-autoscaler
+  namespace: qa
 spec:
   scaleTargetRef:
     apiVersion: apps/v2beta1
     kind: Deployment
-    name: events-web
+    name: deloitte-drifters-frontend
   minReplicas: 3
   maxReplicas: 6
   metrics:

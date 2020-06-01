@@ -2,22 +2,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: events-data
+  name: deloitte-drifters-backend
+  namespace: dd-all
   labels:
-    app: events-data
+    app: deloitte-drifters-backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: events-data
+      app: deloitte-drifters-backend
   template:
     metadata:
       labels:
-        app: events-data
+        app: deloitte-drifters-backend
     spec:
       containers:
-      - name: events-data
-        image: bpeddapadamala/internalapp:v1.0.0
+      - name: deloitte-drifters-backend
+        image: bhavgandhi/myinternal:v2
         env:
         - name: PORT
           value: "8082"
@@ -42,12 +43,13 @@ spec:
 apiVersion: v1
 kind: Service
 metadata: 
-  name: events-data-service
+  name: deloitte-drifters-backend-service
+  namespace: dd-all
 spec: 
   ports: 
-     -  port: 8080
+     -  port: 80
         protocol: TCP
         targetPort: 8082
   selector: 
-    app: events-data
+    app: deloitte-drifters-backend
   type: ClusterIP
