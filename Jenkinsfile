@@ -32,6 +32,7 @@ pipeline {
          steps {
             echo 'Installing Kubernetes Cluster'
             sh 'kubectl version'
+            sh 'pwd'
             sh 'kubectl apply -f kubernetes/kube-config-namespaces.yaml'
             sh 'kubectl apply -f kubernetes/kube-config-backend.yaml'
             sh 'kubectl apply -f kubernetes/kube-config-frontend.yaml'
