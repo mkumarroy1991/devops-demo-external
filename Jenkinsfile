@@ -10,6 +10,7 @@ pipeline {
             sh 'git version'
             sh 'node -v'
             sh 'npm -v'
+            sh 'gcloud version'
             
          }
       }
