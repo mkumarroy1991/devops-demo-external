@@ -10,7 +10,6 @@ pipeline {
             sh 'git version'
             sh 'node -v'
             sh 'npm -v'
-            sh 'gcloud version'
             
          }
       }
@@ -25,27 +24,23 @@ pipeline {
             sh 'docker images'
             echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL}"
             sh "gcloud builds submit --tag=gcr.io/dtc-user21/jenkins-pipe-external:${env.BUILD_ID} . "
-            
          }
       }
       stage('Stage 4 - Deployment - Kubernetes Cluster Resource Creation/Update') {
          steps {
             echo 'Installing Kubernetes Cluster'
-            sh 'kubectl version'
             sh 'pwd'
-            sh 'kubectl apply -f kubernetes/kube-config-namespaces.yaml'
+            sh 'ls'
+            sh 'gcloud container clusters get-credentials deloitte-drifters-app-cluster --zone us-central1-a --project dtc-user21'
+            sh 'kubectl version'
+            sh 'kubectl get namespaces'
             sh 'kubectl apply -f kubernetes/kube-config-backend.yaml'
             sh 'kubectl apply -f kubernetes/kube-config-frontend.yaml'
             sh 'kubectl get services -n qa'
             sh 'kubectl get deployments -n qa'
             sh 'kubectl get pods -n qa'
-            
-            
-            
-            
          }
       }
    }
    
 }
-
