@@ -15,7 +15,9 @@ pipeline {
       }
       stage('Cloning GitHub Repo Into Jenkins...') {
          steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/development']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '3e7e3ea4-1155-4264-ae65-c90a76ef5173', url: 'https://github.com/mkumarroy1991/devops-demo-external.git']]])
+             git branch: "development",
+                url:'https://github.com/mkumarroy1991/devops-demo-external.git'
+             sh 'ls'   
          }
       }
       
