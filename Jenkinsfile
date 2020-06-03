@@ -2,7 +2,7 @@ pipeline {
    agent any
 
    stages {
-      stage('Version Checks Stage') {
+      stage('Version Verification Stage') {
          steps {
             echo 'Checking Versions...'
             sh 'docker --version'
@@ -15,7 +15,7 @@ pipeline {
       }
       stage('Cloning GitHub Repo Into Jenkins...') {
          steps {
-            checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '3e7e3ea4-1155-4264-ae65-c90a76ef5173', url: 'https://github.com/mkumarroy1991/devops-demo-external.git']]])
+            checkout([$class: 'GitSCM', branches: [[name: '*/development']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '3e7e3ea4-1155-4264-ae65-c90a76ef5173', url: 'https://github.com/mkumarroy1991/devops-demo-external.git']]])
          }
       }
       
@@ -32,9 +32,11 @@ pipeline {
             echo 'Installing Kubernetes Cluster'
             sh 'pwd'
             sh 'ls'
-            sh 'gcloud container clusters get-credentials deloitte-drifters-cluster --zone us-central1-a --project dtc-user21'
+            sh 'gcloud container clusters get-credentials deloitte-drifters-demo-cluster --zone us-central1-a --project dtc-user21'
+            
             sh 'kubectl version'
             sh 'kubectl get namespaces'
+            
             echo 'kubectl set image deployment/deloitte-drifters-frontend deloitte-drifters-frontend=gcr.io/dtc-user21/jenkins-pipe-external:v1.${env.BUILD_ID} --record --namespace=qa'
             sh "kubectl set image deployment/deloitte-drifters-frontend deloitte-drifters-frontend=gcr.io/dtc-user21/jenkins-pipe-external:v1.${env.BUILD_ID} --record --namespace=qa"
             
