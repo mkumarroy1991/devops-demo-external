@@ -37,6 +37,6 @@ jobs:
           testcases=$(echo "$json_response" | jq '.[].requirements[] | select(.name | contains("IQE-9")) | select(.testcases).testcases')
           echo $testcases
 
-      - name: Triggering Jenkins Job
+      - name: Triggering api call
         run: |
           curl -d '{ "name": "TC-1, TC-2" }'  -H "Content-Type: application/json"  https://enl82rxlzwxt8.x.pipedream.net/
