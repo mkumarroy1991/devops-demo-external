@@ -44,4 +44,5 @@ jobs:
       - name: Triggering Jenkins Job
         run: |
           testcases=${{ steps.jenkins_parameter.outputs.testcases }}
-          curl -d '{ "name": '$testcases' }' -H "Content-Type: application/json"  https://enl82rxlzwxt8.x.pipedream.net/
+          trimmed_variable=${testcases//\"}
+          curl -d '{ "name": '$trimmed_variable' }' -H "Content-Type: application/json"  https://enl82rxlzwxt8.x.pipedream.net/
