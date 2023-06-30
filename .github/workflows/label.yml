@@ -20,7 +20,7 @@ jobs:
           pr_message=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number" | jq -r '.head.commit.message')
           echo "::set-output name=pr_message::$pr_message"
           echo "PR Title: ${{ github.event.pull_request.title }}" 
-          echo "PR Number: ${{ github.event.pull_request.number }}" 
+          echo "PR Number : ${{ github.event.pull_request.number }}" 
 
           jiraID=$(echo "${{ github.event.pull_request.title }}" | grep -oE 'IQE-[0-9]+')
           echo "::set-output name=jiraID::$jiraID"
